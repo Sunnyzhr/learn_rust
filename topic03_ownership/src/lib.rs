@@ -24,9 +24,13 @@ pub fn modify_string(s: String) -> String {
 
 // Actually, let's make it a bit harder.
 // Function that takes ownership, modifies, and returns it (Move semantics).
-pub fn append_world(mut s: String) -> String {
-    // TODO: Append " World" to s and return it.
-    String::new() // Placeholder
+pub fn append_word<'a>(s: &'a mut String, s2:&'a str) -> &'a str {
+    s.push_str(&s2);
+    s
+}
+
+pub fn upper_word(s: &mut String) {
+    s.make_ascii_uppercase();
 }
 
 #[cfg(test)]
@@ -35,9 +39,18 @@ mod tests {
 
     #[test]
     fn test_append_world() {
-        let s = String::from("Hello");
-        let modified = append_world(s);
-        // s is moved, cannot use here.
-        assert_eq!(modified, "Hello World");
+        let mut s = String::from("Hello");
+        upper_word(&mut s);
+        assert_eq!(s, "HELLO");
+
+        let s3 = append_word(&mut s, "zhr");
+
+        // // success
+        // assert_eq!(s3, "HELLOzhr");
+        // assert_eq!(s, "HELLOzhr");
+
+        // fail
+        assert_eq!(s, "HELLOzhr");
+        assert_eq!(s3, "HELLOzhr");
     }
 }
