@@ -8,14 +8,23 @@
 //    - If parse fails, return Err("Parse Error")
 //    - If divide by zero, return Err("Division by Zero")
 
-use std::num::ParseIntError;
-
 pub fn parse_and_divide(s1: &str, s2: &str) -> Result<i32, String> {
     // TODO: Implement this.
     // Use .parse::<i32>()
     // Handle errors.
-    
-    Err(String::from("Not implemented"))
+    let func = |x: i32, y: i32| -> Option<i32> {
+        match y {
+            0 => None,
+            _ => Some(x / y),
+        }
+    };
+    let x = s1.parse::<i32>().map_err(|_| "Parse Error".to_string())?;
+    let y = s2.parse::<i32>().map_err(|_| "Parse Error".to_string())?;
+
+    match func(x, y) {
+        None => Err("Division by Zero".to_string()),
+        Some(ret) => Ok(ret),
+    }
 }
 
 #[cfg(test)]
