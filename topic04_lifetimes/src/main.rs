@@ -18,6 +18,8 @@ fn main() {
     
     // If 'result' was tied to 'string2', accessing it here would be a use-after-free.
     // The compiler prevents this based on lifetime annotations.
+
+    example_struct()
 }
 
 // 'a is a generic lifetime parameter.
@@ -37,8 +39,17 @@ struct ImportantExcerpt<'a> {
 
 fn example_struct() {
     let novel = String::from("Call me Ishmael. Some years ago...");
-    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
-    let i = ImportantExcerpt {
-        part: first_sentence,
+    // 1. 获取迭代器 (必须是 mut，因为调用 next() 会改变迭代器内部状态)
+    let mut sentences = novel.split('.');
+    
+    // 2. 第一次调用 next() -> 返回 Some("Call me Ishmael")
+    sentences.next();
+    
+    // 3. 第二次调用 next() -> 返回 Some(" Some years ago")
+    let second_sentence = sentences.next().expect("Could not find a '.'");
+    
+    let _i = ImportantExcerpt {
+        part: second_sentence,
     };
+    println!("{}", _i.part);
 }
