@@ -24,14 +24,16 @@ fn main() {
     println!("Reference count: {}", Rc::strong_count(&a)); // 3
 
     println!("\n--- RefCell (Interior Mutability) ---");
-    let data = Rc::new(RefCell::new(5));
+    // Note: 'data' is NOT declared as 'mut', but we can still modify it!
+    let data = RefCell::new(5);
 
-    let owner1 = Rc::clone(&data);
-    let owner2 = Rc::clone(&data);
-
-    // owner1 modifies the data inside!
     // borrow_mut() returns a RefMut<T> (like a smart pointer)
-    *owner1.borrow_mut() += 10; 
+    *data.borrow_mut() += 10; 
 
-    println!("Owner 2 sees: {}", owner2.borrow()); // 15
+    // Q: Why doesn't this panic? We seem to be borrowing multiple times.
+    // A: Because the temporary `Ref` returned by borrow() is dropped at the end of the statement.
+    //    So the borrow is released BEFORE the next line starts.
+    println!("Data is now: {}", data.borrow());      // Borrow starts -> prints -> Borrow ends (Drop)
+    println!("Data is now: {}", data.borrow_mut());  // BorrowMut starts -> prints -> BorrowMut ends (Drop)
+    println!("Data is now: {}", data.borrow());      // Safe again!
 }
