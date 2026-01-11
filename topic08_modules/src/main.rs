@@ -13,14 +13,14 @@ mod front_of_house {
             println!("Added to waitlist");
         }
         
-        fn seat_at_table() {
+        fn _seat_at_table() {
             println!("Seated");
         }
     }
 
     mod serving {
-        fn take_order() {}
-        fn serve_order() {}
+        fn _take_order() {}
+        fn _serve_order() {}
     }
 }
 

@@ -8,14 +8,14 @@
 pub mod back_of_house {
     pub struct Breakfast {
         pub toast: String,      // Needs to be public
-        seasonal_fruit: String, // Private
+        _seasonal_fruit: String, // Private
     }
 
     impl Breakfast {
         pub fn summer(toast: &str) -> Breakfast {
             Breakfast {
                 toast: String::from(toast),
-                seasonal_fruit: String::from("peaches"),
+                _seasonal_fruit: String::from("peaches"),
             }
         }
     }
@@ -38,8 +38,8 @@ pub fn eat_at_restaurant() {
     // meal.seasonal_fruit = String::from("blueberries");
     
     // TODO: Make this code compile by adjusting visibility in `back_of_house`.
-    let order1 = back_of_house::Appetizer::Soup;
-    let order2 = back_of_house::Appetizer::Salad;
+    let _order1 = back_of_house::Appetizer::Soup;
+    let _order2 = back_of_house::Appetizer::Salad;
 }
 
 #[cfg(test)]
