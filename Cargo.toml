@@ -1,0 +1,13 @@
+[workspace]
+members = [
+    "topic01_basics",
+    "topic02_slices",
+    "topic03_ownership",
+    "topic04_lifetimes",
+    "topic05_traits_dyn_drop",
+    "topic06_closures_errors",
+    "topic07_smart_pointers",
+    "topic08_modules",
+]
+
+resolver = "2"
